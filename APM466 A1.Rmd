@@ -1,0 +1,466 @@
+---
+title: "466A111"
+author: "Dingshuo Li"
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-02-03"
+---
+
+```{r}
+library(jrvFinance)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+library(knitr)
+```
+
+
+```{r}
+bond_data <- read.csv("/Users/dingshuo/Desktop/bonddataa.csv")
+bond_data$Coupon <- bond_data$Coupon
+
+ytm <- matrix(nrow = 11,ncol = 11)
+colnames(ytm)<-c("2025-01-6", "2025-01-7","2025-01-8","2025-01-9","2025-01-10", "2025-01-13","2025-01-14","2025-01-15","2025-01-16","2025-01-17","2025-01-20" )
+
+rownames(ytm) <- bond_data$ISIN 
+bond_data$Maturity_Date <- as.Date(bond_data$Maturity_Date, format="%Y-%m-%d")
+
+
+```
+
+
+```{r}
+# Calculate YTM for settlement date 2025-01-06
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_6[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-06"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 1] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-07
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_7[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-07"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 2] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-08
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_8[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-08"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 3] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-09
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_9[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-09"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 4] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-10
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_10[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-10"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 5] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-13
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_13[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-13"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 6] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-14
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_14[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-14"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 7] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-15
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_15[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-15"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 8] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-16
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_16[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-16"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 9] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-17
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_17[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-17"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 10] <- ytm_value
+}
+
+# Calculate YTM for settlement date 2025-01-20
+for (index in 1:11) {
+  coupon_rate <- bond_data$Coupon[index]
+  bond_price <- bond_data$X2025_1_20[index]
+  maturity_date <- bond_data$Maturity_Date[index]
+  
+  ytm_value <- bond.yield(
+    settle = as.Date("2025-01-20"),
+    mature = maturity_date,
+    coupon = coupon_rate,
+    freq = 2,
+    price = bond_price,
+    comp.freq = 2,
+    redemption_value = 100
+  )
+  
+  ytm[index, 11] <- ytm_value
+}
+
+
+
+```
+
+
+
+
+
+
+
+```{r}
+time_to_maturity <- seq(0.5, 5, length.out = 11)
+
+# colours
+curve_colors <- c("black", "red", "green", "blue", "cyan", "magenta", 
+                  "orange", "gray", "purple", "brown", "darkgreen")
+
+y_limits <- c(min(ytm, na.rm = TRUE) * 0.99, max(ytm, na.rm = TRUE) * 1.01)
+par(mar = c(5, 4, 4, 10), xpd = TRUE)  # Increase right margin
+
+# Plot first curves 
+plot(time_to_maturity, ytm[,1], type = "l", col = curve_colors[1], 
+     xlab = "Years to Maturity",
+     ylab = "Yield to Maturity (%)",
+     main = "5-Year Yield Curve",
+     ylim = y_limits)
+
+# Add other curves
+for (i in 2:11) {
+  lines(time_to_maturity, ytm[, i], col = curve_colors[i])
+}
+
+# Add legend 
+legend("topright", inset = c(-0.25, 0), 
+       legend = c("2025-01-06", "2025-01-07", "2025-01-08", "2025-01-09", "2025-01-10",
+                  "2025-01-13", "2025-01-14", "2025-01-15", "2025-01-16", "2025-01-17", "2025-01-20"),
+       lty = 1, lwd = 2, cex = 0.8, col = curve_colors, bty = "n")
+```
+
+
+
+
+```{r}
+
+face_value <- 100  
+coupon_rates <- bond_data$Coupon * 0.5  # Convert to semi-annual coupon payments
+bond_prices <- bond_data[, 5:15]  
+maturities <- seq(0.5, 5, length.out = nrow(bond_data))  
+
+spot_rates <- matrix(nrow = nrow(bond_data), ncol = ncol(bond_prices))
+colnames(spot_rates) <- colnames(bond_prices)
+rownames(spot_rates) <- maturities
+
+curve_colors <- c("black", "red", "green", "blue", "cyan", "magenta", 
+                  "orange", "gray", "purple", "brown", "darkgreen")
+
+# Bootstrapping
+for (day in 1:ncol(bond_prices)) {
+  for (i in 1:nrow(bond_data)) {
+    bond_price <- bond_prices[i, day]
+    coupon <- coupon_rates[i]
+
+    if (i == 1) { 
+      # For zero-coupon bond 
+      spot_rates[i, day] <- (face_value / bond_price)^(1/maturities[i]) - 1
+    } else {
+      # For bonds with multiple cash flows
+      cpn_sum <- 0
+      for (t in 1:(i-1)) {
+        cpn_sum <- cpn_sum + (coupon * face_value) / ((1 + spot_rates[t, day])^t)
+      }
+      # Solve for the spot rate
+      spot_rates[i, day] <- ((face_value + coupon * face_value) / (bond_price - cpn_sum))^(1 / i) - 1
+    }
+  }
+}
+
+# Convert spot rates to a long format 
+spot_long <- melt(as.data.frame(spot_rates), varnames = c("Maturity", "Date"), value.name = "SpotRate")
+spot_long$Maturity <- as.numeric(rownames(spot_rates))
+spot_long$Date <- rep(colnames(spot_rates), each = nrow(spot_rates))
+
+# Remove "X" prefix, convert underscores to dashes and keep dates in order
+spot_long$Date <- gsub("X", "", spot_long$Date)  
+spot_long$Date <- gsub("_", "-", spot_long$Date)  
+spot_long$Date <- factor(spot_long$Date, levels = unique(spot_long$Date))  
+
+# Filter to only show maturities between 1 and 5 years
+spot_filtered <- spot_long %>% filter(Maturity >= 0.8 & Maturity <= 5)
+
+# Plot 
+ggplot(spot_filtered, aes(x = Maturity, y = SpotRate, color = Date, group = Date)) +
+  geom_line(size = 0.7) +
+  labs(
+    title = "5-Year Spot Rate Curve",
+    x = "Years to Maturity",
+    y = "Spot Rate (%)"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(0, 5, 0.5)) +  
+  scale_color_manual(values = curve_colors)  
+
+
+```
+
+```{r}
+
+forward_rates <- matrix(ncol = 11, nrow = 4)
+
+for (day in 1:ncol(spot_rates)) {  
+  for (i in 2:5) {  
+    F_tn <- ((1 + spot_rates[i, day] / 2)^(2 * i) / (1 + spot_rates[1, day] / 2)^(2 * 1))^(1 / (2 * (i - 1))) - 1
+    forward_rates[i - 1, day] <- F_tn
+  }
+}
+
+# Convert to long format for plotting
+forward_long <- melt(as.data.frame(forward_rates), varnames = c("Maturity", "Date"), value.name = "ForwardRate")
+forward_long$Maturity <- as.numeric(rep(2:5, times = ncol(forward_rates)))  
+forward_long$Date <- rep(colnames(spot_rates), each = nrow(forward_rates))  
+
+# Remove "X" prefix, convert underscores to dashes and keep dates in order.
+forward_long$Date <- gsub("X", "", forward_long$Date)  
+forward_long$Date <- gsub("_", "-", forward_long$Date)  
+forward_long$Date <- factor(forward_long$Date, levels = unique(forward_long$Date))
+
+
+curve_colors <- c("black", "red", "green", "blue", "cyan", "magenta", 
+                  "orange", "gray", "purple", "brown", "darkgreen")
+
+# Define x-axis
+time_labels <- c("1yr-1yr", "1yr-2yr", "1yr-3yr", "1yr-4yr")
+
+# plot
+ggplot(forward_long, aes(x = Maturity, y = ForwardRate, color = Date, group = Date)) +
+  geom_line(size = 0.7) +
+  labs(
+    title = "1-Year Forward Rate Curve",
+    x = "Time Rate",
+    y = "Forward Rate (%)"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(breaks = 2:5, labels = time_labels) +  
+  scale_color_manual(values = curve_colors) 
+```
+
+
+```{r}
+yield_log_returns <- matrix(ncol = 9, nrow = 5)
+
+# Compute log-returns for yield rates
+for (i in 1:9) {
+  yield_log_returns[1, i] <- log(ytm[2, i+1] / ytm[2, i])
+  yield_log_returns[2, i] <- log(ytm[4, i+1] / ytm[4, i])
+  yield_log_returns[3, i] <- log(ytm[6, i+1] / ytm[6, i])
+  yield_log_returns[4, i] <- log(ytm[8, i+1] / ytm[8, i])
+  yield_log_returns[5, i] <- log(ytm[10, i+1] / ytm[10, i])
+}
+
+# Transpose to align format 
+yield_log_returns <- t(yield_log_returns)
+cov_yield <- cov(yield_log_returns)
+
+
+
+
+
+
+```
+
+
+
+
+
+```{r}
+forward_log_returns <- matrix(ncol = 9, nrow = 4)
+
+for (i in 1:9) {
+  forward_log_returns[1, i] <- log(forward_rates[1, i+1] / forward_rates[1, i])  # 1yr-1yr
+  forward_log_returns[2, i] <- log(forward_rates[2, i+1] / forward_rates[2, i])  # 1yr-2yr
+  forward_log_returns[3, i] <- log(forward_rates[3, i+1] / forward_rates[3, i])  # 1yr-3yr
+  forward_log_returns[4, i] <- log(forward_rates[4, i+1] / forward_rates[4, i])  # 1yr-4yr
+}
+
+# Transpose to align format 
+forward_log_returns <- t(forward_log_returns)
+cov_forward <- cov(forward_log_returns)
+
+kable(cov_yield, caption = "Covariance Matrix of Yield Log-Returns")
+kable(cov_forward, caption = "Covariance Matrix of Forward Log-Returns")
+
+
+```
+
+
+
+
+
+
+```{r}
+eigen_cov_yield <- eigen(cov_yield)
+print(eigen_cov_yield$values)
+print(eigen_cov_yield$vectors)
+
+```
+
+```{r}
+eigen_cov_forward <- eigen(cov_forward)
+print(eigen_cov_forward$values)
+print(eigen_cov_forward$vectors)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
